@@ -1,6 +1,8 @@
+import json
+from django.core import serializers
 from django.core.exceptions import ValidationError
 from django.core.paginator import Paginator
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.template import Template, Context, loader
 
@@ -196,3 +198,10 @@ def wpisy_taga(request, nazwa_taga):
         template_name='blog/wpisy_po_tagu.html',
         context=context
     )
+
+
+def wpisy_json(request):
+    wpisy = Wpis.objects.all()
+    data = serializers.serialize('json', wpisy)
+    data = json.loads(data)
+    return JsonResponse(data, safe=False)

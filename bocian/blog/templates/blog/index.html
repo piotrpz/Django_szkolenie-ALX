@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 
+{% load markup_tags %}
 {% block title %} Lista wpisów {% endblock %}
 
 {% block lista_wpisow %}
+
+<h1>{{kot}}</h1>
 <div class="filters">
     <a href="{% url 'wpisy-main' %}?orderby=tytul">Po tytule</a>
     <a href="{% url 'wpisy-main' %}?orderby=created">Po dacie utworzenia</a>
@@ -37,11 +40,18 @@
 {% block wpis %}
 <div class="wpis">
     <h1>{{ wybrany_wpis.tytul }}</h1>
-    <div class="tresc_wpisu">{{ wybrany_wpis.tresc }}</div>
+    <div class="tresc_wpisu">{{ wybrany_wpis.tresc|apply_markup:"markdown" }}</div>
     <div class="tag_list">
         {% for tag in tagi %}
         <a href="{% url 'wpisy-po-tagu' nazwa_taga=tag.nazwa %}">{{ tag.nazwa }}</a>
         {% endfor %}
+    </div>
+    <div>
+        {% if wybrany_wpis.obrazek %}
+        Obrazek:
+
+        <img src="{{ wybrany_wpis.obrazek.url }}" title="obrazek" width="500"/>
+        {% endif %}
     </div>
 </div>
 <div class="errors">

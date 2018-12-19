@@ -15,3 +15,5 @@ body {
 .errors {
     color: red;
 }
+
+.tresc_wpisu img {max-width: 500px;}
